@@ -1,5 +1,6 @@
-@extends('layouts.main')
-@section('main')
-
-
+@extends('layouts.backend.main')
+@section('content')
+    <div class="container bg-dark">
+        asas
+    </div>
 @endsection
