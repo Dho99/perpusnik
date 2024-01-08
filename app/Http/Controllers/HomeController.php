@@ -11,10 +11,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('frontend.pages.Petugas.home', [
+        return view('pages.home', [
             'title' => 'Dashboard'
         ]);
     }
+
 
     /**
      * Show the form for creating a new resource.

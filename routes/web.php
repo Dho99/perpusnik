@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,23 +16,41 @@ use App\Http\Controllers\HomeController;
 |
 */
 
-
-
 Route::group(['middleware' => []], function () {
     Route::controller(AuthController::class)->group(function () {
         Route::get('/login', 'index')->name('login');
         Route::post('/login', 'login');
         Route::get('/logout', 'logout');
     });
-    Route::controller(HomeController::class)->group(function(){
+    Route::controller(HomeController::class)->group(function () {
         Route::get('/', 'index')->name('home');
     });
 });
 
-// Route::middleware(['auth', 'checkLevel:Petugas'])->group(function () {
-//     Route::prefix('petugas')->group(function(){
-//         Route::controller(HomeController::class)->group(function () {
-//             Route::get('/home', 'index')->name('home');
-//         });
-//     });
-// });
+
+// Dashboard
+Route::controller(DashboardController::class)->group(function () {
+    Route::middleware(['auth', 'checkLevel:Administrator'])->group(function () {
+        Route::prefix('admin')->group(function(){
+            Route::controller(DashboardController::class)->group(function () {
+                Route::get('/home', 'adminIndex')->name('homeAdmin');
+            });
+        });
+    });
+
+    Route::middleware(['auth', 'checkLevel:Petugas'])->group(function () {
+        Route::prefix('petugas')->group(function () {
+            Route::get('/home', 'petugasIndex')->name('homePetugas');
+        });
+    });
+
+    Route::middleware(['auth', 'checkLevel:Peminjam'])->group(function () {
+        Route::prefix('peminjam')->group(function () {
+            Route::get('/home', 'peminjamIndex')->name('homePeminjam');
+        });
+    });
+
+
+
+
+});

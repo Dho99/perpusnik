@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class AuthController extends Controller
 {
     public function index(){
-        return view('frontend.pages.Auth.login', [
+        return view('pages.Auth.login', [
             'title' => 'Login'
         ]);
     }
@@ -24,7 +24,21 @@ class AuthController extends Controller
 
         if(Auth::attempt($data)){
             $request->session()->regenerate();
-            return redirect()->route('home');
+            $level = auth()->user()->level;
+            switch($level){
+                case 'Administrator':
+                    return redirect()->intended('admin/home');
+                    break;
+                case 'Petugas':
+                    return redirect()->intended('petugas/home');
+                    break;
+                case 'Peminjam':
+                    return redirect()->intended('peminjam/home');
+                    break;
+                default:
+                    return back()->with('loginFailed', 'Anda tidak terdaftar sebagai anggota');
+                break;
+            };
         }else{
             return back()->with('loginFailed', 'Username yang anda masukkan salah, Periksa kembali');
         }

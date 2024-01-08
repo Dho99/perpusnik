@@ -2,6 +2,7 @@
 @extends('global.layouts.layouts')
 <link rel="stylesheet" href="{{asset('assets/styles/frontend-page.css')}}">
 @section('main')
-    @include('frontend.components.navbar')
+    @include('components.navbar')
     @yield('content')
+    @include('components.footer')
 @endsection
