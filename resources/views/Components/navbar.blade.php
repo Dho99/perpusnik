@@ -14,23 +14,22 @@
                 <button class="btn btn-primary rounded-start-0" type="submit"><i class="bi bi-search"></i></button>
             </form>
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link {{Request::is('home') ? 'active text-primary' : ''}}" aria-current="page" href="/home">Beranda</a>
-                </li>
-                <li class="nav-item dropdown">
+                </li> --}}
+                {{-- <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle {{Request::is('categories') ? 'active text-primary' : ''}}" href="#" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
                         Kategori
                     </a>
                     <ul class="dropdown-menu">
+                        @forelse ( as )
                         <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        @empty
+                        <li><a class="dropdown-item" href="#">Belum ada Kategori</a></li>
+                        @endforelse
                     </ul>
-                </li>
+                </li> --}}
                 @if(Auth::check())
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle open" href="#" role="button" data-bs-toggle="dropdown"
@@ -38,8 +37,10 @@
                             Anda
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li><a class="dropdown-item" href="/account/settings/{{encrypt(auth()->user()->id)}}">Pengaturan Akun</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                             <li class=""><a class="dropdown-item btn text-danger" href="/logout">Logout</a></li>
                         </ul>
                     </li>

@@ -74,39 +74,81 @@
     <div class="container my-5">
         <div class="row">
             <div class="col-lg-6">
-                <h2 class="text-start fw-bold">Buku Terbaru</h2>
-                <div class="my-4 pe-3">
-                    <a href="#" class="text-decoration-none text-dark">
-                        <div class="container bg-primary bg-opacity-50 rounded py-2">
-                            <div class="row">
-                                <div class="col-lg-3">
-                                    s
-                                </div>
-                                <div class="col-lg-9">
-                                    s
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <h2 class="text-end fw-bold">Buku Terpopuler</h2>
-                <div class="my-4 ps-3">
-                    <a href="#" class="text-decoration-none text-dark">
-                        <div class="container bg-primary bg-opacity-50 rounded py-2">
-                            <div class="row">
-                                <div class="col-lg-3">
-                                    s
-                                </div>
-                                <div class="col-lg-9">
-                                    s
+                <h2 class="text-start fw-bold pb-2">Buku Terbaru</h2>
+                @forelse ($latestBooks as $book)
+                    <div class="my-3 pe-0 pe-lg-3">
+                        <a href="#" class="text-decoration-none text-dark d-flex">
+                            <div class="container bg-primary bg-opacity-25 rounded rounded-end-0">
+                                <div class="row d-flex p-3">
+                                    <div class="col-lg-7">
+                                        {{ $book->judul }}
+                                    </div>
+                                    <div class="col-lg-5">
+                                        {{ $book->penulis }}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </a>
-                </div>
+                            <div class="bg-primary text-light rounded rounded-start-0 d-flex px-2">
+                                <p class="m-auto">{{$book->category->namaKategori}}</p>
+                            </div>
+                        </a>
+                    </div>
+                @empty
+                    <div class="my-3">
+                        <a href="#" class="text-decoration-none text-dark">
+                            <div class="container bg-primary bg-opacity-50 rounded py-2">
+                                <h4 class="text-center fw-bold">Tidak ada buku terpopuler</h4>
+                            </div>
+                        </a>
+                    </div>
+                @endforelse
             </div>
+            <div class="col-lg-6 py-lg-0 py-5 ">
+                <h2 class="text-start text-lg-end fw-bold pb-2 mt-5">Buku Terpopuler</h2>
+                @forelse ($popularBooks as $book)
+                    <div class="my-3 ps-0 ps-lg-3">
+                        <a href="#" class="text-decoration-none text-dark d-flex">
+                            <div class="container bg-primary bg-opacity-25 rounded rounded-end-0">
+                                <div class="row d-flex p-3">
+                                    <div class="col-lg-7">
+                                        {{ $book->judul }}
+                                    </div>
+                                    <div class="col-lg-5">
+                                        {{ $book->penulis }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-primary text-light rounded rounded-start-0 d-flex px-2">
+                                <p class="m-auto">{{$book->category->namaKategori}}</p>
+                            </div>
+                        </a>
+                    </div>
+                @empty
+                    <div class="my-3">
+                        <a href="#" class="text-decoration-none text-dark">
+                            <div class="container bg-primary bg-opacity-50 rounded py-2">
+                                <h4 class="text-center fw-bold">Tidak ada buku terpopuler</h4>
+                            </div>
+                        </a>
+                    </div>
+                @endforelse
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="container py-5">
+        <h3 class="text-center fw-bold">Kategori Buku</h3>
+        <div class="row gap-4 py-4 d-flex justify-content-center">
+            @forelse ($categories as $category)
+                <a href="#" class="col-lg-2 col-md-3 col-6 px-3 py-2 btn btn-outline-primary">
+                    {{ $category->namaKategori }}
+                </a>
+            @empty
+                <a href="#" class="col-12 px-3 py-2 btn btn-outline-primary">
+                    Tidak ada Kategori
+                </a>
+            @endforelse
+
         </div>
     </div>
 @endsection

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Buku;
+use App\Models\Kategori;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -12,7 +14,10 @@ class HomeController extends Controller
     public function index()
     {
         return view('pages.home', [
-            'title' => 'Dashboard'
+            'title' => 'Dashboard',
+            'categories' => Kategori::all(),
+            'popularBooks' => Buku::with('category')->orderBy('views', 'DESC')->get()->take(5),
+            'latestBooks' => Buku::with('category')->latest()->get()->take(5)
         ]);
     }
 

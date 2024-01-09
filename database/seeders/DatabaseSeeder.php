@@ -23,5 +23,12 @@ class DatabaseSeeder extends Seeder
             'alamat' => fake()->address(),
         ]);
 
+        \App\Models\Kategori::factory()->create(['namaKategori' => 'Teknologi']);
+        \App\Models\Kategori::factory()->create(['namaKategori' => 'Pendidikan']);
+        \App\Models\Kategori::factory()->create(['namaKategori' => 'Parenting']);
+        \App\Models\Kategori::factory()->create(['namaKategori' => 'Investasi']);
+
+        \App\Models\Buku::factory(20)->create();
+
     }
 }

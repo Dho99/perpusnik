@@ -16,7 +16,11 @@ return new class extends Migration
             $table->string('judul');
             $table->string('penulis');
             $table->string('penerbit');
+            $table->integer('views');
             $table->date('tahunTerbit');
+            $table->string('thumbnail');
+            $table->unsignedBigInteger('categoryId');
+            $table->foreign('categoryId')->references('id')->on('kategoris')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }
