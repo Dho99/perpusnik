@@ -9,8 +9,9 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <form class="d-flex ms-auto m-0" role="search">
-                <input class="form-control rounded-end-0" type="search" placeholder="Cari Buku" aria-label="Search">
+            <form class="d-flex ms-auto m-0" action="/books/search" method="POST">
+                @csrf
+                <input class="form-control rounded-end-0" type="text" name="searchValue" placeholder="Cari Buku" aria-label="Search">
                 <button class="btn btn-primary rounded-start-0" type="submit"><i class="bi bi-search"></i></button>
             </form>
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">

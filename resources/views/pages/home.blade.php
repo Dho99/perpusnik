@@ -171,14 +171,7 @@
                 <div class="col-lg-2 col-md-3 col-6 px-3 py-2 bg-primary swiper-slide rounded text-light">
                     ssss
                 </div>
-
             </div>
-            {{-- @forelse ($categories as $category)
-            @empty --}}
-            {{-- <a href="#" class="col-12 px-3 py-2 btn btn-outline-primary">
-                Tidak ada Kategori
-            </a> --}}
-            {{-- @endforelse --}}
 
         </div>
     </div>

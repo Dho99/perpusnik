@@ -28,6 +28,8 @@ Route::group(['middleware' => []], function () {
     });
     Route::controller(BukuController::class)->group(function(){
         Route::get('/baca-buku', 'index');
+        Route::get('/load-more/books/{skip}', 'loadMoreBooks');
+        Route::post('/books/search', 'searchBooks');
     });
 });
 

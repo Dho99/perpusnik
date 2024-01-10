@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Buku;
-use App\Http\Requests\StoreBukuRequest;
-use App\Http\Requests\UpdateBukuRequest;
+use Illuminate\Http\Request;
+
 
 class BukuController extends Controller
 {
@@ -15,13 +15,40 @@ class BukuController extends Controller
     {
         return view('pages.books', [
             'title' => 'Semua Buku',
-            'books' => Buku::all()
+            'books' => Buku::with('category')->latest()->get()->take(10),
+            'counted' => Buku::all()->count(),
         ]);
+    }
+
+    public function loadMoreBooks(Request $request, $skip){
+        if($request->ajax()){
+            $data = Buku::with('category')->latest()->get()->skip($skip)->take(10);
+            return response()->json(['books' => $data]);
+        }else{
+            return view('error.errorPage', [
+                'title' => 'Error',
+                'code' => 400,
+                'message' => 'Server Disconnected'
+            ]);
+        }
     }
 
     /**
      * Show the form for creating a new resource.
      */
+
+    public function searchBooks(Request $request)
+    {
+        if(!empty($request->searchValue)){
+            $data = Buku::where('judul', 'LIKE','%'.$request->searchValue.'%')->get();
+            return response()->json(['data' => $data]);
+        }else{
+            return back()->with('error', 'Tidak boleh kosong saat mencari buku');
+        }
+
+    }
+
+
     public function create()
     {
         //
@@ -30,7 +57,7 @@ class BukuController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreBukuRequest $request)
+    public function store(Request $request)
     {
         //
     }
@@ -54,7 +81,7 @@ class BukuController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateBukuRequest $request, Buku $buku)
+    public function update(Request $request, Buku $buku)
     {
         //
     }
