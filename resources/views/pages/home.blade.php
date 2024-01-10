@@ -1,4 +1,5 @@
 @extends('layouts.main')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 @section('content')
     <div class="container mt-5 mb-0">
         <div class="row d-flex">
@@ -89,7 +90,7 @@
                                 </div>
                             </div>
                             <div class="bg-primary text-light rounded rounded-start-0 d-flex px-2">
-                                <p class="m-auto">{{$book->category->namaKategori}}</p>
+                                <p class="m-auto">{{ $book->category->namaKategori }}</p>
                             </div>
                         </a>
                     </div>
@@ -119,7 +120,7 @@
                                 </div>
                             </div>
                             <div class="bg-primary text-light rounded rounded-start-0 d-flex px-2">
-                                <p class="m-auto">{{$book->category->namaKategori}}</p>
+                                <p class="m-auto">{{ $book->category->namaKategori }}</p>
                             </div>
                         </a>
                     </div>
@@ -151,4 +152,48 @@
 
         </div>
     </div>
+    <div class="container py-5">
+        <h3 class="text-center fw-bold">Komentar</h3>
+        <div class="row py-4 d-flex justify-content-center swiper">
+            <div class="swiper-wrapper gap-3">
+                <div class="col-lg-2 col-md-3 col-6 px-3 py-2 bg-primary swiper-slide rounded text-light">
+                    ssss
+                </div>
+                <div class="col-lg-2 col-md-3 col-6 px-3 py-2 bg-primary swiper-slide rounded text-light">
+                    ssss
+                </div>
+                <div class="col-lg-2 col-md-3 col-6 px-3 py-2 bg-primary swiper-slide rounded text-light">
+                    ssss
+                </div>
+                <div class="col-lg-2 col-md-3 col-6 px-3 py-2 bg-primary swiper-slide rounded text-light">
+                    ssss
+                </div>
+                <div class="col-lg-2 col-md-3 col-6 px-3 py-2 bg-primary swiper-slide rounded text-light">
+                    ssss
+                </div>
+
+            </div>
+            {{-- @forelse ($categories as $category)
+            @empty --}}
+            {{-- <a href="#" class="col-12 px-3 py-2 btn btn-outline-primary">
+                Tidak ada Kategori
+            </a> --}}
+            {{-- @endforelse --}}
+
+        </div>
+    </div>
 @endsection
+@push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        const swiper = new Swiper('.swiper', {
+            // Optional parameters
+            direction: 'horizontal',
+            slidesPerView: 3,
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: true
+            },
+        });
+    </script>
+@endpush

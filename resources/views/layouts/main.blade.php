@@ -1,5 +1,5 @@
 {{-- Layouts for frontend page (non auth)--}}
-@extends('global.layouts.layouts')
+@extends('layouts.global')
 <link rel="stylesheet" href="{{asset('assets/styles/frontend-page.css')}}">
 @section('main')
     @include('components.navbar')

@@ -1,4 +1,4 @@
-@extends('global.layouts.layouts')
+@extends('layouts.global')
 @section('main')
 <link rel="stylesheet" href="{{asset('assets/styles/login-page.css')}}">
     <div class="row d-flex justify-content-center m-0" style="height: 100vh;">

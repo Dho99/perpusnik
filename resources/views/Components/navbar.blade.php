@@ -1,6 +1,6 @@
-<nav class="navbar navbar-expand-lg bg-primary-subtle">
+<nav class="navbar navbar-expand-lg bg-primary-subtle sticky-top">
     <div class="container">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="/">
             <img src="{{ asset('assets/icons/icons8-book-100.png') }}" class="img-fluid" alt="">
             <span class="fw-bolder ms-1 text-primary">Perpusnik</span>
         </a>

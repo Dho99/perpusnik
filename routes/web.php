@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BukuController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DashboardController;
 
@@ -24,6 +25,9 @@ Route::group(['middleware' => []], function () {
     });
     Route::controller(HomeController::class)->group(function () {
         Route::get('/', 'index')->name('home');
+    });
+    Route::controller(BukuController::class)->group(function(){
+        Route::get('/baca-buku', 'index');
     });
 });
 
