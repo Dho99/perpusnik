@@ -19,6 +19,7 @@ class BukuFactory extends Factory
         return [
             'judul' => fake()->sentence(5),
             'penulis' => fake()->name(),
+            'slug' => fake()->slug(),
             'penerbit' => fake()->name(),
             'thumbnail' => fake()->imageUrl(640, 480, 'animals', true),
             'categoryId' => mt_rand(1,4),

@@ -39,9 +39,13 @@ class BukuController extends Controller
 
     public function searchBooks(Request $request)
     {
+        $request->flashOnly('searchValue');
         if(!empty($request->searchValue)){
             $data = Buku::where('judul', 'LIKE','%'.$request->searchValue.'%')->get();
-            return response()->json(['data' => $data]);
+            return view('pages.search-books', [
+                'title' => 'Hasil pencarian buku "'.$request->searchValue.'"',
+                'books' => $data
+            ]) ;
         }else{
             return back()->with('error', 'Tidak boleh kosong saat mencari buku');
         }
@@ -65,9 +69,13 @@ class BukuController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Buku $buku)
+    public function show(Buku $buku, $slug)
     {
-        //
+        $data = Buku::where('slug', $slug)->first();
+        return view('pages.show-book', [
+            'title' => 'Baca buku "'.$data->judul.'"',
+            'buku' => $data
+        ]);
     }
 
     /**

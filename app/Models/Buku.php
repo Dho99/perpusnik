@@ -11,6 +11,7 @@ class Buku extends Model
     protected $guarded = 'id';
     protected $fillable = [
         'judul',
+        'slug',
         'penulis',
         'thumbnail',
         'penerbit',
