@@ -26,13 +26,23 @@
         <h2 class="text-center my-5">Pilih apa yang anda inginkan</h2>
         <div class="container row gap-5 d-flex justify-content-center m-auto pb-5 mb-5">
             <div class="col-lg-3 text-center d-flex justify-content-center">
+                <a href="/baca-buku" class="text-decoration-none">
+                    <div class="card shadow menuCard" style="width: 18rem;">
+                        <i class="bi bi-book h1 pt-4 pb-0 m-0"></i>
+                        <div class="card-body">
+                            <h5 class="card-title">Baca Buku</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 text-center d-flex justify-content-center">
                 @if (Auth::check())
                     <a href="/pinjam-buku" class="text-decoration-none">
                     @else
                         <a href="/login" class="text-decoration-none">
                 @endif
                 <div class="card shadow menuCard" style="width: 18rem;">
-                    <i class="bi bi-journal-arrow-up h1 pt-4 pb-0 m-0"></i>
+                    <i class="bi bi-bookmark-plus h1 pt-4 pb-0 m-0"></i>
                     <div class="card-body">
                         <h5 class="card-title">Pinjam Buku</h5>
                     </div>
@@ -46,7 +56,7 @@
                         <a href="/login" class="text-decoration-none">
                 @endif
                 <div class="card shadow menuCard" style="width: 18rem;">
-                    <i class="bi bi-journal-arrow-down h1 pt-4 pb-0 m-0"></i>
+                    <i class="bi bi-bookmark-dash h1 pt-4 pb-0 m-0"></i>
                     <div class="card-body">
                         <h5 class="card-title">Kembalikan Buku</h5>
                     </div>

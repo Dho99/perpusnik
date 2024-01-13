@@ -73,7 +73,7 @@ class BukuController extends Controller
     {
         $data = Buku::where('slug', $slug)->first();
         return view('pages.show-book', [
-            'title' => 'Baca buku "'.$data->judul.'"',
+            'title' => 'Baca '.$data->judul,
             'buku' => $data
         ]);
     }

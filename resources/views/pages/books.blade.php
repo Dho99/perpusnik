@@ -14,8 +14,19 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ $book->judul }}</h5>
                             <p class="card-text">{{ $book->penulis }}</p>
-                            <a href="/baca-buku/{{ $book->slug }}"
-                                class="btn btn-primary d-flex justify-content-center">Baca Sekarang</a>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                <a href="/baca-buku/{{ $book->slug }}"
+                                    class="btn btn-primary d-flex justify-content-center">Baca</a>
+                                </div>
+                                <div class="col-lg-6">
+                                    @if (!Auth::check())
+                                    <a href="/login" class="btn btn-primary d-flex justify-content-center">Koleksi</a>
+                                    @else
+                                    <a href="javascript:void(0)" onclick="addToCollections('{{$book->slug}}')" class="btn btn-primary d-flex justify-content-center">Koleksi</a>
+                                    @endif
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -76,6 +87,23 @@
                 </div>
                 `);
             }
+        }
+
+        const addToCollections = (slug) => {
+            $.ajax({
+                url: '/books/collections/add/'+slug,
+                method: 'POST',
+                headers : {
+                    'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response){
+                    infoAlert(response.message);
+                },
+                error: function(error, xhr){
+                    errorAlert(`${error.message}`);
+                    console.log(xhr.responsetext);
+                }
+            });
         }
     </script>
 @endpush

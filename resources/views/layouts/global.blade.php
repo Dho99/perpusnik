@@ -22,7 +22,59 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
     </script>
+    @if(session()->has('error'))
+    <script>
+        errorAlert('{{session("error")}}');
+    </script>
+    @endif
+    @if(session()->has('success'))
+    <script>
+        successAlert('{{session("success")}}');
+    </script>
+    @endif
+    @if(session()->has('info'))
+    <script>
+        infoAlert('{{session("info")}}');
+    </script>
+    @endif
+    <script>
+        const errorAlert = (message) => {
+            swal({
+            title: message,
+            className: 'text-danger',
+            icon: 'error',
+            button: {
+                text: 'Siap, laksanakan!',
+                className : 'btn bg-danger text-light',
+            },
+            });
+        }
+
+        const successAlert = (message) => {
+            swal({
+            title: message,
+            icon: 'success',
+            button: {
+                text: 'Oke',
+                className : 'btn bg-success text-light',
+            },
+            });
+        }
+
+        const infoAlert = (message) => {
+            swal({
+            title: message,
+            icon: 'info',
+            button: {
+                text: 'Oke',
+                className : 'btn bg-info text-light',
+            },
+            });
+        }
+
+
+    </script>
+    @stack('scripts')
 </body>
-@stack('scripts')
 
 </html>

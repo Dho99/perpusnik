@@ -33,7 +33,7 @@ class AuthController extends Controller
                     return redirect()->intended('petugas/home');
                     break;
                 case 'Peminjam':
-                    return redirect()->intended('peminjam/home');
+                    return redirect()->intended('/');
                     break;
                 default:
                     return back()->with('loginFailed', 'Anda tidak terdaftar sebagai anggota');
