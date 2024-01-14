@@ -23,4 +23,8 @@ class Buku extends Model
     public function category(){
         return $this->belongsTo(\App\Models\Kategori::class, 'categoryId');
     }
+
+    public function collected(){
+        return $this->hasMany(\App\Models\KoleksiPribadi::class, 'bookId');
+    }
 }

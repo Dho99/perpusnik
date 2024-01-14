@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BukuController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\KoleksiPribadiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,27 +38,35 @@ Route::group(['middleware' => []], function () {
 
 // Dashboard
 Route::controller(DashboardController::class)->group(function () {
-    Route::middleware(['auth', 'checkLevel:Administrator'])->group(function () {
-        Route::prefix('admin')->group(function(){
-            Route::controller(DashboardController::class)->group(function () {
-                Route::get('/home', 'adminIndex')->name('homeAdmin');
+    Route::middleware('auth')->group(function () {
+        Route::middleware('checkLevel:Administrator')->group(function () {
+            Route::prefix('admin')->group(function(){
+                Route::controller(DashboardController::class)->group(function () {
+                    Route::get('/home', 'adminIndex')->name('homeAdmin');
+                });
             });
         });
-    });
 
-    Route::middleware(['auth', 'checkLevel:Petugas'])->group(function () {
-        Route::prefix('petugas')->group(function () {
-            Route::get('/home', 'petugasIndex')->name('homePetugas');
+        Route::middleware('checkLevel:Petugas')->group(function () {
+            Route::prefix('petugas')->group(function () {
+                Route::get('/home', 'petugasIndex')->name('homePetugas');
+            });
+        });
+
+        Route::middleware('checkLevel:Peminjam')->group(function () {
+            Route::prefix('peminjam')->group(function () {
+                Route::get('/home', 'peminjamIndex')->name('homePeminjam');
+            });
+        });
+
+        Route::controller(BukuController::class)->group(function(){
+            Route::get('/account/collections', 'collections');
+        });
+
+        Route::controller(KoleksiPribadiController::class)->group(function(){
+            Route::post('/books/collections/add/{slug}', 'collect');
         });
     });
-
-    Route::middleware(['auth', 'checkLevel:Peminjam'])->group(function () {
-        Route::prefix('peminjam')->group(function () {
-            Route::get('/home', 'peminjamIndex')->name('homePeminjam');
-        });
-    });
-
-
 
 
 });

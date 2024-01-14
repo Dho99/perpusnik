@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg bg-primary-subtle sticky-top">
+<nav class="navbar navbar-expand-lg bg-primary-subtle sticky-top shadow-sm">
     <div class="container">
         <a class="navbar-brand" href="/">
             <img src="{{ asset('assets/icons/icons8-book-100.png') }}" class="img-fluid" alt="">
@@ -11,8 +11,8 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <form class="d-flex ms-auto m-0" action="/books/search" method="POST">
                 @csrf
-                <input class="form-control rounded-end-0" type="text" name="searchValue" placeholder="Cari Buku" aria-label="Search" value="{{old('searchValue')}}">
-                <button class="btn btn-primary rounded-start-0" type="submit"><i class="bi bi-search"></i></button>
+                <input class="form-control rounded-end-0" type="text" name="searchValue" placeholder="Cari Buku" value="{{old('searchValue')}}" id="searchBookInputValue" required oninput="searchBookInput()">
+                <button class="btn btn-primary rounded-start-0" id="searchBooksBtn" disabled type="submit"><i class="bi bi-search"></i></button>
             </form>
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 {{-- <li class="nav-item">
@@ -33,12 +33,13 @@
                 </li> --}}
                 @if(Auth::check())
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle open" href="#" role="button" data-bs-toggle="dropdown"
+                        <a class="nav-link dropdown-toggle open" href="#" role="button"data-bs-toggle="dropdown"
                             aria-expanded="false">
                             Anda
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/account/settings/{{encrypt(auth()->user()->id)}}">Pengaturan Akun</a></li>
+                            <li><a class="dropdown-item" href="/account/collections">Koleksi Akun</a></li>
+                            <li><a class="dropdown-item" href="/account/settings">Pengaturan Akun</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
@@ -54,3 +55,21 @@
         </div>
     </div>
 </nav>
+@push('scripts')
+    <script>
+        $().ready(function(){
+            searchBookInput();
+        });
+        const searchBookInput = () => {
+            let inputValue = $('#searchBookInputValue').val();
+            if(inputValue.length <= 0){
+                $('#searchBooksBtn').prop('disabled', true);
+            }else if(inputValue[0] === ' '){
+                inputValue = $('#searchBookInputValue').val('');
+            }else{
+                $('#searchBooksBtn').prop('disabled', false);
+            }
+        }
+
+    </script>
+@endpush

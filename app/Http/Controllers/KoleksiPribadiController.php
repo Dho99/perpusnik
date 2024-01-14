@@ -2,15 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Buku;
+use Illuminate\Http\Request;
 use App\Models\KoleksiPribadi;
-use App\Http\Requests\StoreKoleksiPribadiRequest;
-use App\Http\Requests\UpdateKoleksiPribadiRequest;
+use App\Http\Controllers\UserController;
 
 class KoleksiPribadiController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    protected $userController;
+
+    public function __construct(UserController $userController){
+        $this->userController = $userController;
+    }
+
+
     public function index()
     {
         //
@@ -24,10 +32,21 @@ class KoleksiPribadiController extends Controller
         //
     }
 
+
+    public function collect($slug){
+        $bookData = Buku::where('slug', $slug)->first();
+        KoleksiPribadi::create([
+            'userId' => $this->userController->userId(),
+            'bookId' => $bookData->id
+        ]);
+        return response()->json(['message' => 'Buku berhasil ditambahkan ke Koleksi']);
+    }
+
+
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreKoleksiPribadiRequest $request)
+    public function store(Request $request)
     {
         //
     }
@@ -51,7 +70,7 @@ class KoleksiPribadiController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateKoleksiPribadiRequest $request, KoleksiPribadi $koleksiPribadi)
+    public function update(Request $request)
     {
         //
     }
@@ -59,7 +78,7 @@ class KoleksiPribadiController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(KoleksiPribadi $koleksiPribadi)
+    public function destroy()
     {
         //
     }

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Buku;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\KoleksiPribadi;
 
 
 class BukuController extends Controller
@@ -11,18 +13,26 @@ class BukuController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function userId(){
+        if(auth()->check()){
+            return auth()->user()->id;
+        }
+
+    }
+
     public function index()
     {
         return view('pages.books', [
             'title' => 'Semua Buku',
-            'books' => Buku::with('category')->latest()->get()->take(10),
+            'books' => Buku::with('category', 'collected')->latest()->get()->take(10),
             'counted' => Buku::all()->count(),
+            'collected' => KoleksiPribadi::where('userId', $this->userId())->with('user','book')->get()
         ]);
     }
 
     public function loadMoreBooks(Request $request, $skip){
         if($request->ajax()){
-            $data = Buku::with('category')->latest()->get()->skip($skip)->take(10);
+            $data = Buku::with('category')->latest()->get()->skip($skip);
             return response()->json(['books' => $data]);
         }else{
             return view('error.errorPage', [
@@ -40,16 +50,25 @@ class BukuController extends Controller
     public function searchBooks(Request $request)
     {
         $request->flashOnly('searchValue');
+        $searchValue = $request->searchValue;
+
+        // return dd($searchValue);
         if(!empty($request->searchValue)){
-            $data = Buku::where('judul', 'LIKE','%'.$request->searchValue.'%')->get();
+            $data = Buku::where('judul', 'LIKE','%'.$searchValue.'%')->get();
             return view('pages.search-books', [
-                'title' => 'Hasil pencarian buku "'.$request->searchValue.'"',
+                'title' => 'Hasil pencarian buku "'.$searchValue.'"',
                 'books' => $data
             ]) ;
         }else{
             return back()->with('error', 'Tidak boleh kosong saat mencari buku');
         }
 
+    }
+
+    public function collections(){
+        $userId = $this->userId();
+        $collectUserBook = KoleksiPribadi::where('userId', $userId)->with('user')->get();
+        dd($collectUserBook);
     }
 
 

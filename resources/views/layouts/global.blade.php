@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{{ asset('assets/styles/global.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/styles/custom-divider-waves.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <meta name="csrf-token" content="{{csrf_token()}}">
 </head>
 
 <body>
