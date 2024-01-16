@@ -33,7 +33,8 @@ class BukuController extends Controller
     public function loadMoreBooks(Request $request, $skip){
         if($request->ajax()){
             $data = Buku::with('category')->latest()->get()->skip($skip);
-            return response()->json(['books' => $data]);
+            $collected = KoleksiPribadi::where('userId', $this->userId())->with('user','book')->get();
+            return response()->json(['books' => $data, 'collected' => $collected]);
         }else{
             return view('error.errorPage', [
                 'title' => 'Error',

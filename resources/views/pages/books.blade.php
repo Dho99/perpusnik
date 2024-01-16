@@ -56,7 +56,6 @@
     <script>
         const countedAllPosts = parseInt("{{ $counted }}");
         let totalBooksLoaded = parseInt("{{ count($books) }}");
-        const bookCollectedByUser = '{{$collected}}';
         const checkAuth = '{{auth()->check()}}';
     </script>
     <script src="{{ asset('assets/js/book.js') }}"></script>
