@@ -28,10 +28,13 @@ Route::group(['middleware' => []], function () {
         Route::get('/', 'index')->name('home');
     });
     Route::controller(BukuController::class)->group(function(){
-        Route::get('/baca-buku', 'index');
-        Route::get('/baca-buku/{slug}', 'show');
-        Route::get('/load-more/books/{skip}', 'loadMoreBooks');
+        Route::get('/books', 'index');
+        Route::get('/books/read/{slug}', 'show');
+        Route::get('/books/load-more/{skip}', 'loadMoreBooks');
         Route::post('/books/search', 'searchBooks');
+        Route::get('/books/search', function(){
+            return response()->view('errors.404');
+        });
     });
 });
 
@@ -59,12 +62,9 @@ Route::controller(DashboardController::class)->group(function () {
             });
         });
 
-        Route::controller(BukuController::class)->group(function(){
-            Route::get('/account/collections', 'collections');
-        });
-
         Route::controller(KoleksiPribadiController::class)->group(function(){
             Route::post('/books/collections/add/{slug}', 'collect');
+            Route::get('/books/collections', 'collections');
         });
     });
 

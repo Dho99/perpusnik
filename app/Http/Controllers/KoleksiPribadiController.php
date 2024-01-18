@@ -24,6 +24,17 @@ class KoleksiPribadiController extends Controller
         //
     }
 
+    public function collections(){
+        $userId = $this->userController->userId();
+        $collectedBooksByUser = KoleksiPribadi::where('userId', $userId)->with('book')->get();
+
+        return view('pages.books-collection', [
+            'title' => 'Koleksi Buku',
+            'books' => $collectedBooksByUser
+        ]);
+    }
+
+
     /**
      * Show the form for creating a new resource.
      */

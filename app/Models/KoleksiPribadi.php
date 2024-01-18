@@ -20,4 +20,6 @@ class KoleksiPribadi extends Model
     public function book(){
         return $this->belongsTo(\App\Models\Buku::class, 'bookId');
     }
+
+    // public function category(){}
 }

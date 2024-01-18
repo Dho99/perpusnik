@@ -37,7 +37,7 @@
             </div>
             <div class="col-lg-3 text-center d-flex justify-content-center">
                 @if (Auth::check())
-                    <a href="/pinjam-buku" class="text-decoration-none">
+                    <a href="/books/collections" class="text-decoration-none">
                     @else
                         <a href="/login" class="text-decoration-none">
                 @endif

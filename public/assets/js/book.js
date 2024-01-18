@@ -1,11 +1,9 @@
 // const countedAllPosts = parseInt("{{ $counted }}");
 // let totalBooksLoaded = parseInt("{{ count($books) }}");
 let bookCollectedByUser = [];
+let idOfBooksCollected = [];
 
 const checkLoadedPost = () => {
-    bookCollectedByUser.map((item) => (
-        console.log(item)
-    ));
     if (countedAllPosts >= totalBooksLoaded) {
         $("#buttonLoader").addClass("d-none");
     }
@@ -13,12 +11,15 @@ const checkLoadedPost = () => {
 
 const loadMoreBooks = () => {
     $.ajax({
-        url: "/load-more/books/" + totalBooksLoaded,
+        url: "/books/load-more/" + totalBooksLoaded,
         method: "GET",
         success: function (response) {
+            bookCollectedByUser = response.collected;
+            bookCollectedByUser.map((item) => (
+                idOfBooksCollected.push(item.bookId)
+            ));
             appendBooks(response.books);
             totalBooksLoaded += 10;
-            bookCollectedByUser = response.collected;
             checkLoadedPost();
         },
         error: function (error, xhr) {
@@ -58,7 +59,7 @@ const appendBooks = (books) => {
 
                                 `<div id="${books[key].slug}">
                                     ${
-                                        bookCollectedByUser.includes((item) => item.bookId === books[key].id)
+                                        idOfBooksCollected.includes(books[key].id)
                                         ?
                                         `<a href="javascript:void(0)"
                                         class="btn btn-secondary d-flex justify-content-center">Dikoleksi</a>`

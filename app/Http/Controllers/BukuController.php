@@ -36,7 +36,7 @@ class BukuController extends Controller
             $collected = KoleksiPribadi::where('userId', $this->userId())->with('user','book')->get();
             return response()->json(['books' => $data, 'collected' => $collected]);
         }else{
-            return view('error.errorPage', [
+            return view('errors.500', [
                 'title' => 'Error',
                 'code' => 400,
                 'message' => 'Server Disconnected'
@@ -52,13 +52,26 @@ class BukuController extends Controller
     {
         $request->flashOnly('searchValue');
         $searchValue = $request->searchValue;
+        $getBook = Buku::where('judul', 'LIKE', '%'.$searchValue.'%')->with('category')->get();
+        $getWriter = Buku::where('penulis', 'LIKE', '%'.$searchValue.'%')->with('category')->get();
+        $getPublisher = Buku::where('penerbit', 'LIKE', '%'.$searchValue.'%')->with('category')->get();
+        $collected = KoleksiPribadi::where('userId', $this->userId())->with('user','book','category')->get();
+        if(empty($getBook)){
+            $data = $getWriter;
+        }elseif(empty($getWriter)){
+            $data = $getPublisher;
+        }else{
+            $data = $getBook;
+        }
 
         // return dd($searchValue);
         if(!empty($request->searchValue)){
-            $data = Buku::where('judul', 'LIKE','%'.$searchValue.'%')->get();
+            // $data = Buku::where('judul', 'LIKE','%'.$searchValue.'%')->get();
             return view('pages.search-books', [
                 'title' => 'Hasil pencarian buku "'.$searchValue.'"',
-                'books' => $data
+                'books' => $data,
+                'collected' => $collected,
+                'counted' => count($collected)
             ]) ;
         }else{
             return back()->with('error', 'Tidak boleh kosong saat mencari buku');
