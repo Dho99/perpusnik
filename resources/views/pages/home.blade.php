@@ -26,7 +26,7 @@
         <h2 class="text-center my-5">Pilih apa yang anda inginkan</h2>
         <div class="container row gap-5 d-flex justify-content-center m-auto pb-5 mb-5">
             <div class="col-lg-3 text-center d-flex justify-content-center">
-                <a href="/baca-buku" class="text-decoration-none">
+                <a href="/books" class="text-decoration-none">
                     <div class="card shadow menuCard" style="width: 18rem;">
                         <i class="bi bi-book h1 pt-4 pb-0 m-0"></i>
                         <div class="card-body">

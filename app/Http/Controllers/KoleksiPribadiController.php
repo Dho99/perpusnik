@@ -65,6 +65,25 @@ class KoleksiPribadiController extends Controller
     /**
      * Display the specified resource.
      */
+    public function searchCollectedBooks(Request $request)
+    {
+        // dd($request->searchValue);
+        $request->flashOnly('searchValue');
+        $searchValue = $request->searchValue;
+        $userId = $this->userController->userId();
+        $collectedBooksByUser = KoleksiPribadi::where('userId', $userId)->whereHas('book', function($q){
+            $q->where('judul', 'LIKE', '%'.$searchValue.'%');
+        })->get();
+
+        return view('pages.books-collection', [
+            'title' => 'Koleksi Buku',
+            'books' => $collectedBooksByUser
+        ]);
+
+    }
+
+
+
     public function show(KoleksiPribadi $koleksiPribadi)
     {
         //

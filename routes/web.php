@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BukuController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KoleksiPribadiController;
 
@@ -27,13 +28,21 @@ Route::group(['middleware' => []], function () {
     Route::controller(HomeController::class)->group(function () {
         Route::get('/', 'index')->name('home');
     });
-    Route::controller(BukuController::class)->group(function(){
-        Route::get('/books', 'index');
-        Route::get('/books/read/{slug}', 'show');
-        Route::get('/books/load-more/{skip}', 'loadMoreBooks');
-        Route::post('/books/search', 'searchBooks');
-        Route::get('/books/search', function(){
-            return response()->view('errors.404');
+    Route::prefix('books')->group(function(){
+        Route::controller(BukuController::class)->group(function(){
+            Route::get('/', 'index');
+            Route::get('/read/{slug}', 'show');
+            Route::get('/load-more/{skip}', 'loadMoreBooks');
+            Route::post('/search', 'searchBooks');
+            Route::get('/search', function(){
+                return response()->view('errors.404');
+            });
+        });
+        Route::prefix('category')->group(function(){
+            Route::controller(KategoriController::class)->group(function(){
+                Route::get('/{category}', 'index');
+                Route::get('/load-more/{category}/{skip}', 'loadMoreBooks');
+            });
         });
     });
 });
@@ -65,6 +74,7 @@ Route::controller(DashboardController::class)->group(function () {
         Route::controller(KoleksiPribadiController::class)->group(function(){
             Route::post('/books/collections/add/{slug}', 'collect');
             Route::get('/books/collections', 'collections');
+            Route::post('/books/collections/search', 'searchCollectedBooks');
         });
     });
 

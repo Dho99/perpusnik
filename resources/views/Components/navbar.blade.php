@@ -9,7 +9,11 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <form class="d-flex ms-auto m-0" action="/books/search" method="POST">
+            @if (Request::is('books/collections'))
+                <form class="d-flex ms-auto m-0" action="/books/collections/search" method="POST">
+            @else
+                <form class="d-flex ms-auto m-0" action="/books/search" method="POST">
+            @endif
                 @csrf
                 <input class="form-control rounded-end-0" type="text" name="searchValue" placeholder="Cari Buku" value="{{old('searchValue')}}" id="searchBookInputValue" required oninput="searchBookInput()">
                 <button class="btn btn-primary rounded-start-0" id="searchBooksBtn" disabled type="submit"><i class="bi bi-search"></i></button>
@@ -38,7 +42,7 @@
                             Anda
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/account/collections">Koleksi Akun</a></li>
+                            <li><a class="dropdown-item" href="/books/collections">Koleksi Akun</a></li>
                             <li><a class="dropdown-item" href="/account/settings">Pengaturan Akun</a></li>
                             <li>
                                 <hr class="dropdown-divider">

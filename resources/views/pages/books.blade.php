@@ -9,7 +9,7 @@
                 <div href="#" class="col-lg-2 col-md-3 col-4">
                     <div class="card">
                         <img src="{{ $book->thumbnail }}" class="card-img-top" alt="...">
-                        <a href="#" class="bg-primary-subtle text-decoration-none text-dark">
+                        <a href="/books/category/{{$book->category->namaKategori}}" class="bg-primary-subtle text-decoration-none text-dark">
                             <p class="text-center m-0">{{ $book->category->namaKategori }}</p>
                         </a>
 
@@ -28,7 +28,7 @@
                                     @else
                                         <div id="{{ $book->slug }}">
                                             @if ($collected->contains('bookId', $book->id))
-                                                <a href="javascript:void(0)"
+                                                <a href="/books/collections"
                                                     class="btn btn-secondary d-flex justify-content-center">Dikoleksi</a>
                                             @else
                                                 <a href="javascript:void(0)"

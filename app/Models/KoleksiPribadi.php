@@ -21,5 +21,7 @@ class KoleksiPribadi extends Model
         return $this->belongsTo(\App\Models\Buku::class, 'bookId');
     }
 
-    // public function category(){}
+    // public function category(){
+    //     return $this->belongsTo(\App\Models\Kategori::class, 'bookId');
+    // }
 }

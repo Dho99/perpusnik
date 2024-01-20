@@ -28,7 +28,7 @@
                                     @else
                                         <div id="{{ $book->slug }}">
                                             @if ($collected->contains('bookId', $book->id))
-                                                <a href="javascript:void(0)"
+                                                <a href="/books/collections"
                                                     class="btn btn-secondary d-flex justify-content-center">Dikoleksi</a>
                                             @else
                                                 <a href="javascript:void(0)"

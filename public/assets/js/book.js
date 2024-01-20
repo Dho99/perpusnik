@@ -2,18 +2,29 @@
 // let totalBooksLoaded = parseInt("{{ count($books) }}");
 let bookCollectedByUser = [];
 let idOfBooksCollected = [];
+let link;
+
+// $().ready(function(){
+//     checkLoadedPost();
+// });
+
 
 const checkLoadedPost = () => {
-    if (countedAllPosts >= totalBooksLoaded) {
+    if (countedAllPosts > totalBooksLoaded) {
         $("#buttonLoader").addClass("d-none");
     }
 };
 
 const loadMoreBooks = () => {
+    if(!link){
+        link = "/books/load-more/" + totalBooksLoaded;
+    }
+    // errorAlert(link);
     $.ajax({
-        url: "/books/load-more/" + totalBooksLoaded,
+        url: link,
         method: "GET",
         success: function (response) {
+            console.log(response.books);
             bookCollectedByUser = response.collected;
             bookCollectedByUser.map((item) => (
                 idOfBooksCollected.push(item.bookId)
@@ -23,8 +34,8 @@ const loadMoreBooks = () => {
             checkLoadedPost();
         },
         error: function (error, xhr) {
-            console.log(xhr.responsetext);
-            alert(error.message);
+            console.log(xhr.responseText);
+            errorAlert(`${error.message}`);
         },
     });
 };
@@ -61,7 +72,7 @@ const appendBooks = (books) => {
                                     ${
                                         idOfBooksCollected.includes(books[key].id)
                                         ?
-                                        `<a href="javascript:void(0)"
+                                        `<a href="/books/collections"
                                         class="btn btn-secondary d-flex justify-content-center">Dikoleksi</a>`
                                         :
                                         ` <a href="javascript:void(0)"
@@ -101,6 +112,6 @@ const addToCollections = (slug) => {
 
 const collected = (slug) => {
     $(`#${slug}`).empty().append(`
-                <a href="javascript:void(0)" class="btn btn-secondary d-flex justify-content-center">Dikoleksi</a>
+                <a href="/books/collections" class="btn btn-secondary d-flex justify-content-center">Dikoleksi</a>
             `);
 };

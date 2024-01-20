@@ -7,39 +7,49 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\KoleksiPribadi;
 
-
 class BukuController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function userId(){
-        if(auth()->check()){
+    public function userId()
+    {
+        if (auth()->check()) {
             return auth()->user()->id;
         }
-
     }
 
     public function index()
     {
         return view('pages.books', [
             'title' => 'Semua Buku',
-            'books' => Buku::with('category', 'collected')->latest()->get()->take(10),
+            'books' => Buku::with('category', 'collected')
+                ->latest()
+                ->get()
+                ->take(10),
             'counted' => Buku::all()->count(),
-            'collected' => KoleksiPribadi::where('userId', $this->userId())->with('user','book')->get()
+            'collected' => KoleksiPribadi::where('userId', $this->userId())
+                ->with('user', 'book')
+                ->get(),
         ]);
     }
 
-    public function loadMoreBooks(Request $request, $skip){
-        if($request->ajax()){
-            $data = Buku::with('category')->latest()->get()->skip($skip);
-            $collected = KoleksiPribadi::where('userId', $this->userId())->with('user','book')->get();
+    public function loadMoreBooks(Request $request, $skip)
+    {
+        if ($request->ajax()) {
+            $data = Buku::with('category')
+                ->latest()
+                ->get()
+                ->skip($skip);
+            $collected = KoleksiPribadi::where('userId', $this->userId())
+                ->with('user', 'book')
+                ->get();
             return response()->json(['books' => $data, 'collected' => $collected]);
-        }else{
+        } else {
             return view('errors.500', [
                 'title' => 'Error',
                 'code' => 400,
-                'message' => 'Server Disconnected'
+                'message' => 'Server Disconnected',
             ]);
         }
     }
@@ -52,39 +62,48 @@ class BukuController extends Controller
     {
         $request->flashOnly('searchValue');
         $searchValue = $request->searchValue;
-        $getBook = Buku::where('judul', 'LIKE', '%'.$searchValue.'%')->with('category')->get();
-        $getWriter = Buku::where('penulis', 'LIKE', '%'.$searchValue.'%')->with('category')->get();
-        $getPublisher = Buku::where('penerbit', 'LIKE', '%'.$searchValue.'%')->with('category')->get();
-        $collected = KoleksiPribadi::where('userId', $this->userId())->with('user','book','category')->get();
-        if(empty($getBook)){
+        $getBook = Buku::where('judul', 'LIKE', '%' . $searchValue . '%')
+            ->with('category')
+            ->get();
+        $getWriter = Buku::where('penulis', 'LIKE', '%' . $searchValue . '%')
+            ->with('category')
+            ->get();
+        $getPublisher = Buku::where('penerbit', 'LIKE', '%' . $searchValue . '%')
+            ->with('category')
+            ->get();
+        $collected = KoleksiPribadi::where('userId', $this->userId())
+            ->with('user', 'book')
+            ->get();
+        if (empty($getBook)) {
             $data = $getWriter;
-        }elseif(empty($getWriter)){
+        } elseif (empty($getWriter)) {
             $data = $getPublisher;
-        }else{
+        } else {
             $data = $getBook;
         }
 
         // return dd($searchValue);
-        if(!empty($request->searchValue)){
+        if (!empty($request->searchValue)) {
             // $data = Buku::where('judul', 'LIKE','%'.$searchValue.'%')->get();
             return view('pages.search-books', [
-                'title' => 'Hasil pencarian buku "'.$searchValue.'"',
+                'title' => 'Hasil pencarian buku "' . $searchValue . '"',
                 'books' => $data,
                 'collected' => $collected,
-                'counted' => count($collected)
-            ]) ;
-        }else{
+                'counted' => count($collected),
+            ]);
+        } else {
             return back()->with('error', 'Tidak boleh kosong saat mencari buku');
         }
-
     }
 
-    public function collections(){
+    public function collections()
+    {
         $userId = $this->userId();
-        $collectUserBook = KoleksiPribadi::where('userId', $userId)->with('user')->get();
+        $collectUserBook = KoleksiPribadi::where('userId', $userId)
+            ->with('user')
+            ->get();
         dd($collectUserBook);
     }
-
 
     public function create()
     {
@@ -106,8 +125,8 @@ class BukuController extends Controller
     {
         $data = Buku::where('slug', $slug)->first();
         return view('pages.show-book', [
-            'title' => 'Baca '.$data->judul,
-            'buku' => $data
+            'title' => 'Baca ' . $data->judul,
+            'buku' => $data,
         ]);
     }
 
