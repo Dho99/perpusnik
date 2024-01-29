@@ -37,7 +37,7 @@
     <script>
         infoAlert('{{session("info")}}');
     </script>
-    @endif
+    @endif/
     <script>
         const errorAlert = (message) => {
             swal({
@@ -70,6 +70,23 @@
                 text: 'Oke',
                 className : 'btn bg-info text-light',
             },
+            });
+        }
+
+        const confirmAlert = () => {
+            swal({
+                title: 'Apakah anda yakin?',
+                text: 'Item ini akan dihapus.',
+                icon: 'warning',
+                buttons: true,
+                dangerMode: true
+            }).then((willDelete) => {
+                if(willDelete){
+                    // swal('Item ini sudah terhapus', {
+                    //     icon: 'success'
+                    // });
+                    deleteItem();
+                }
             });
         }
 

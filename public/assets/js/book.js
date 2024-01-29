@@ -10,7 +10,7 @@ let link;
 
 
 const checkLoadedPost = () => {
-    if (countedAllPosts > totalBooksLoaded) {
+    if (countedAllPosts >= totalBooksLoaded) {
         $("#buttonLoader").addClass("d-none");
     }
 };

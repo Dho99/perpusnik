@@ -71,10 +71,14 @@ Route::controller(DashboardController::class)->group(function () {
             });
         });
 
-        Route::controller(KoleksiPribadiController::class)->group(function(){
-            Route::post('/books/collections/add/{slug}', 'collect');
-            Route::get('/books/collections', 'collections');
-            Route::post('/books/collections/search', 'searchCollectedBooks');
+
+        Route::prefix('books/collections')->group(function(){
+            Route::controller(KoleksiPribadiController::class)->group(function(){
+                Route::post('/add/{slug}', 'collect');
+                Route::get('/', 'collections');
+                Route::post('/search', 'searchCollectedBooks');
+                Route::get('/remove/{slug}', 'removeCollectedBooks');
+            });
         });
     });
 

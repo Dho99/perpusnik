@@ -25,7 +25,7 @@
                                 @if (!Auth::check())
                                     <a href="/login" class="btn btn-primary d-flex justify-content-center">Koleksi</a>
                                 @else
-                                    <div id="{{ $book->slug }}">
+                                    <div id="{{ $book->slug }}" class="mt-2 mt-lg-0">
                                         @if ($collected->contains('bookId', $book->id))
                                             <a href="/books/collections"
                                                 class="btn btn-secondary d-flex justify-content-center">Dikoleksi</a>

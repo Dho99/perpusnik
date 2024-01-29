@@ -24,14 +24,18 @@ class KoleksiPribadiController extends Controller
         //
     }
 
-    public function collections(){
+    public function collections(Request $request){
         $userId = $this->userController->userId();
         $collectedBooksByUser = KoleksiPribadi::where('userId', $userId)->with('book')->get();
 
-        return view('pages.books-collection', [
-            'title' => 'Koleksi Buku',
-            'books' => $collectedBooksByUser
-        ]);
+        if($request->ajax()){
+            return response()->json(['books' => $collectedBooksByUser]);
+        }else{
+            return view('pages.books-collection', [
+                'title' => 'Koleksi Buku',
+                'books' => $collectedBooksByUser
+            ]);
+        }
     }
 
 
@@ -108,8 +112,17 @@ class KoleksiPribadiController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy()
+    public function removeCollectedBooks($slug, Request $request)
     {
-        //
+        $uid = $this->userController->userId();
+        if($request->ajax()){
+            $removeBook = KoleksiPribadi::whereHas('book', function($q) use ($slug){
+                $q->where('slug', $slug);
+            // })->where('userId', $uid)->delete();
+            })->where('userId', $uid)->delete();
+            return response(200);
+        }else{
+            return response()->code(500);
+        }
     }
 }
